@@ -6,7 +6,7 @@ export default {
     titleTemplate: '%s - alaatv',
     title: 'alaatv',
     htmlAttrs: {
-      lang: 'en',
+      lang: 'fa',
     },
     meta: [
       { charset: 'utf-8' },
@@ -46,7 +46,8 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
+      rtl: true,
       themes: {
         dark: {
           primary: colors.blue.darken2,
