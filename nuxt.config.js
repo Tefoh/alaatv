@@ -7,6 +7,7 @@ export default {
     title: 'alaatv',
     htmlAttrs: {
       lang: 'fa',
+      dir: 'rtl',
     },
     meta: [
       { charset: 'utf-8' },
@@ -45,9 +46,9 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    rtl: true,
     theme: {
       dark: false,
-      rtl: true,
       themes: {
         dark: {
           primary: colors.blue.darken2,
