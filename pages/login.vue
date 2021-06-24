@@ -9,11 +9,13 @@
         </label>
         <v-text-field
           id="cellphone"
+          v-model="form.mobile"
           class="mt-2"
           outlined
           label="*********09"
           prepend-inner-icon="mdi-cellphone-information"
           :rules="[(v) => required(v, 'شماره تلفن'), cellphoneLength]"
+          :error-messages="mobileError"
         ></v-text-field>
 
         <label for="code-melli" class="subtitle-1 gray--text text--darken-2">
@@ -21,11 +23,13 @@
         </label>
         <v-text-field
           id="code-melli"
+          v-model="form.password"
           class="mt-2"
           outlined
           label="---"
           prepend-inner-icon="mdi-lock"
           :rules="[(v) => required(v, 'کد ملی'), codemelliLength]"
+          :error-messages="codeMelliError"
         ></v-text-field>
 
         <v-checkbox :rules="[(v) => !!v || 'باید قوانین سایت را بپزیرید']">
@@ -63,14 +67,27 @@ export default {
     required,
     cellphoneLength,
     codemelliLength,
+    form: {
+      mobile: '',
+      password: '',
+    },
+    mobileError: '',
+    codeMelliError: '',
   }),
   head: {
     title: 'صفحه ورود',
   },
   methods: {
-    handleSubmit() {
+    async handleSubmit() {
       if (this.$refs.loginForm.validate()) {
-        console.log('validated')
+        try {
+          const { data } = await this.$axios.post('/login', this.form)
+          console.log(data)
+        } catch (error) {
+          const errors = error?.response?.data?.errors
+          this.mobileError = errors?.mobile?.[0]
+          this.codeMelliError = errors?.nationalCode?.[0]
+        }
       }
     },
   },
