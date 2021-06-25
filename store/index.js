@@ -1,5 +1,6 @@
 import { CITIES_SET_CITIES } from './types/cities.type'
 import { GENDERS_SET_GENDERS } from './types/genders.type'
+import { GRADES_SET_GRADES } from './types/grades.type'
 
 export const actions = {
   async nuxtServerInit({ commit }, { req, redirect }) {
@@ -11,6 +12,7 @@ export const actions = {
       const { data } = await this.$axios.get('megaroute/getUserFormData')
       commit(CITIES_SET_CITIES, data.data.cities)
       commit(GENDERS_SET_GENDERS, data.data.genders)
+      commit(GRADES_SET_GRADES, data.data.grades)
     } catch (error) {
       redirect({ name: 'login' })
     }
