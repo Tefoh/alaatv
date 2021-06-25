@@ -65,6 +65,7 @@ const codemelliLength = (v) =>
 
 export default {
   layout: 'guest',
+  middleware: ['guest'],
   data: () => ({
     required,
     cellphoneLength,

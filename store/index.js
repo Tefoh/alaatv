@@ -1,3 +1,5 @@
+import { getCookie } from '@/helpers'
+
 import { CITIES_SET_CITIES } from './types/cities.type'
 import { GENDERS_SET_GENDERS } from './types/genders.type'
 import { GRADES_SET_GRADES } from './types/grades.type'
@@ -28,10 +30,4 @@ export const actions = {
     commit(MAJORS_SET_MAJORS, majors)
     commit(PROVINCES_SET_PROVINCES, provinces)
   },
-}
-
-function getCookie(cookies, name) {
-  const value = `; ${cookies}`
-  const parts = value.split(`; ${name}=`)
-  if (parts.length === 2) return parts.pop().split(';').shift()
 }
