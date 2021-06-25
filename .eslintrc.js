@@ -21,5 +21,6 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
+    camelcase: 'off',
   },
 }

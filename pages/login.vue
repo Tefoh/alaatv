@@ -85,16 +85,20 @@ export default {
       if (this.$refs.loginForm.validate()) {
         try {
           const { data } = await this.$axios.post('/login', this.form)
+          const { access_token, token_expires_at, token_type, user } = data.data
+
           Cookie.set(
             'token',
             JSON.stringify({
-              access_token: data.data.access_token,
-              token_expires_at: data.data.token_expires_at,
-              token_type: data.data.token_type,
+              access_token,
+              token_expires_at,
+              token_type,
             })
           )
-          Cookie.set('user', JSON.stringify(data.data.user))
-          Cookie.set('access_token', data.data.access_token)
+          Cookie.set('user', JSON.stringify(user))
+          Cookie.set('access_token', access_token)
+
+          this.$axios.setToken(accessToken, 'Bearer')
 
           this.$router.push({ name: 'index' })
         } catch (error) {

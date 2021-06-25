@@ -17,6 +17,7 @@ export const actions = {
     try {
       dispatch('getForm')
     } catch (error) {
+      this.$axios.setToken(false)
       redirect({ name: 'login' })
     }
   },
