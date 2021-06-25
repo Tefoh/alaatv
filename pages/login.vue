@@ -94,6 +94,8 @@ export default {
           )
           Cookie.set('user', JSON.stringify(data.data.user))
           Cookie.set('access_token', data.data.access_token)
+
+          this.$router.push({ name: 'index' })
         } catch (error) {
           const errors = error?.response?.data?.errors
           this.mobileError = errors?.mobile?.[0]
