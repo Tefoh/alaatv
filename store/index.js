@@ -2,6 +2,7 @@ import { CITIES_SET_CITIES } from './types/cities.type'
 import { GENDERS_SET_GENDERS } from './types/genders.type'
 import { GRADES_SET_GRADES } from './types/grades.type'
 import { MAJORS_SET_MAJORS } from './types/majors.type'
+import { PROVINCES_SET_PROVINCES } from './types/provinces.type'
 
 export const actions = {
   async nuxtServerInit({ commit }, { req, redirect }) {
@@ -14,7 +15,9 @@ export const actions = {
       commit(CITIES_SET_CITIES, data.data.cities)
       commit(GENDERS_SET_GENDERS, data.data.genders)
       commit(GRADES_SET_GRADES, data.data.grades)
-      commit(MAJORS_SET_MAJORS, data.data.grades)
+      commit(MAJORS_SET_MAJORS, data.data.majors)
+      commit(PROVINCES_SET_PROVINCES, data.data.provinces)
+      console.log(data.data.provinces)
     } catch (error) {
       redirect({ name: 'login' })
     }
