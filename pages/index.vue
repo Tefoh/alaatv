@@ -165,6 +165,8 @@
             </v-col>
           </v-row>
 
+          <p v-if="errorMessage">فیلد ها را از اول بررسی کنید.</p>
+
           <v-btn color="primary" type="submit" class="mt-3">
             ویرایش پروفایل
           </v-btn>
@@ -176,12 +178,20 @@
 </template>
 
 <script>
+// import Cookie from 'js-cookie'
+// const cookies = Cookie.withConverter({
+//   write(value) {
+//     return typeof value === 'object' ? JSON.stringify(value) : value
+//   },
+// })
+
 const required = (v, name) => !!v || `فیلد ${name} الزامیست.`
 
 export default {
   data() {
     return {
       isError: false,
+      errorMessage: false,
       province_id: null,
       form: {
         first_name: '',
@@ -231,7 +241,17 @@ export default {
     // },
   },
   methods: {
-    handleSubmit() {},
+    async handleSubmit() {
+      try {
+        await this.$axios.put(
+          `/user/${this.$store.state.user.user.id}`,
+          this.form
+        )
+        // cookies.set('user', JSON.stringify(user))
+      } catch (error) {
+        this.errorMessage = true
+      }
+    },
     required,
   },
 }
