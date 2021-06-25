@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import Cookie from 'js-cookie'
+
 const required = (v, name) => !!v || `فیلد ${name} الزامیست.`
 const cellphoneLength = (v) =>
   (v && v.length === 11) || `فیلد موبایل را درست وارد کنید.`
@@ -82,7 +84,16 @@ export default {
       if (this.$refs.loginForm.validate()) {
         try {
           const { data } = await this.$axios.post('/login', this.form)
-          console.log(data)
+          Cookie.set(
+            'token',
+            JSON.stringify({
+              access_token: data.data.access_token,
+              token_expires_at: data.data.token_expires_at,
+              token_type: data.data.token_type,
+            })
+          )
+          Cookie.set('user', JSON.stringify(data.data.user))
+          Cookie.set('access_token', data.data.access_token)
         } catch (error) {
           const errors = error?.response?.data?.errors
           this.mobileError = errors?.mobile?.[0]
