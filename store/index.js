@@ -5,22 +5,28 @@ import { MAJORS_SET_MAJORS } from './types/majors.type'
 import { PROVINCES_SET_PROVINCES } from './types/provinces.type'
 
 export const actions = {
-  async nuxtServerInit({ commit }, { req, redirect }) {
+  nuxtServerInit({ dispatch }, { req, redirect }) {
     const accessToken = getCookie(req.headers.cookie, 'access_token')
+
+    if (!accessToken) redirect({ name: 'login' })
 
     this.$axios.setToken(accessToken, 'Bearer')
 
     try {
-      const { data } = await this.$axios.get('megaroute/getUserFormData')
-      commit(CITIES_SET_CITIES, data.data.cities)
-      commit(GENDERS_SET_GENDERS, data.data.genders)
-      commit(GRADES_SET_GRADES, data.data.grades)
-      commit(MAJORS_SET_MAJORS, data.data.majors)
-      commit(PROVINCES_SET_PROVINCES, data.data.provinces)
-      console.log(data.data.provinces)
+      dispatch('getForm')
     } catch (error) {
       redirect({ name: 'login' })
     }
+  },
+  async getForm({ commit }) {
+    const { data } = await this.$axios.get('megaroute/getUserFormData')
+    const { cities, genders, grades, majors, provinces } = data.data
+
+    commit(CITIES_SET_CITIES, cities)
+    commit(GENDERS_SET_GENDERS, genders)
+    commit(GRADES_SET_GRADES, grades)
+    commit(MAJORS_SET_MAJORS, majors)
+    commit(PROVINCES_SET_PROVINCES, provinces)
   },
 }
 
