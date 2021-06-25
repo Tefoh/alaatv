@@ -5,12 +5,16 @@ import { GENDERS_SET_GENDERS } from './types/genders.type'
 import { GRADES_SET_GRADES } from './types/grades.type'
 import { MAJORS_SET_MAJORS } from './types/majors.type'
 import { PROVINCES_SET_PROVINCES } from './types/provinces.type'
+import { USER_SET_USER } from './types/user.type'
 
 export const actions = {
-  nuxtServerInit({ dispatch }, { req, redirect }) {
+  nuxtServerInit({ dispatch, commit }, { req, redirect }) {
     const accessToken = getCookie(req.headers.cookie, 'access_token')
+    const user = getCookie(req.headers.cookie, 'user')
 
-    if (!accessToken) redirect({ name: 'login' })
+    if (!accessToken || !user) redirect({ name: 'login' })
+
+    commit(USER_SET_USER, JSON.parse(user || '{}'))
 
     this.$axios.setToken(accessToken, 'Bearer')
 

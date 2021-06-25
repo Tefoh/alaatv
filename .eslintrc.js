@@ -21,6 +21,6 @@ module.exports = {
         endOfLine: 'auto',
       },
     ],
-    camelcase: 'off',
+    camelcase: ['error', { properties: 'never', ignoreDestructuring: true }]
   },
 }

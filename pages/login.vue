@@ -55,6 +55,12 @@
 
 <script>
 import Cookie from 'js-cookie'
+import { USER_SET_USER } from '~/store/types/user.type'
+const cookies = Cookie.withConverter({
+  write(value) {
+    return typeof value === 'object' ? JSON.stringify(value) : value
+  },
+})
 
 const required = (v, name) => !!v || `فیلد ${name} الزامیست.`
 const cellphoneLength = (v) =>
@@ -87,7 +93,7 @@ export default {
           const { data } = await this.$axios.post('/login', this.form)
           const { access_token, token_expires_at, token_type, user } = data.data
 
-          Cookie.set(
+          cookies.set(
             'token',
             JSON.stringify({
               access_token,
@@ -95,10 +101,12 @@ export default {
               token_type,
             })
           )
-          Cookie.set('user', JSON.stringify(user))
-          Cookie.set('access_token', access_token)
+          cookies.set('user', JSON.stringify(user))
+          cookies.set('access_token', access_token)
 
-          this.$axios.setToken(accessToken, 'Bearer')
+          this.$store.commit(USER_SET_USER, user)
+
+          this.$axios.setToken(access_token, 'Bearer')
 
           this.$router.push({ name: 'index' })
         } catch (error) {
